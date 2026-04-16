@@ -10,28 +10,48 @@ yesBtn.addEventListener("click", () => {
   page1.classList.add("hidden");
   page2.classList.remove("hidden");
 
+  // ✅ Scroll top fix
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // ✅ Music play
   music.play().catch(() => {});
 
+  // ✅ Run animations once
   startTextAnimation();
   launchConfetti();
   heartBurst();
 });
 
-// NO BUTTON MOVE (FAST)
+// NO BUTTON MOVE (FASTER + SAFE)
 function moveNoButton() {
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
+
+  const maxX = window.innerWidth - btnWidth;
+  const maxY = window.innerHeight - btnHeight;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
   noBtn.style.position = "absolute";
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
+  noBtn.style.left = `${x}px`;
+  noBtn.style.top = `${y}px`;
 }
 
+// Desktop + Mobile support
 noBtn.addEventListener("mouseenter", moveNoButton);
-noBtn.addEventListener("touchstart", moveNoButton);
+noBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault(); // mobile double trigger fix
+  moveNoButton();
+});
 
-// TEXT ANIMATION
+// TEXT ANIMATION (RUN ONCE)
+let textAnimated = false;
+
 function startTextAnimation() {
+  if (textAnimated) return; // prevent repeat
+  textAnimated = true;
+
   const lines = document.querySelectorAll(".fade-text");
 
   lines.forEach((line, index) => {
@@ -41,7 +61,7 @@ function startTextAnimation() {
   });
 }
 
-// HEART BURST
+// HEART BURST 💖
 function heartBurst() {
   for (let i = 0; i < 20; i++) {
     const heart = document.createElement("div");
@@ -54,8 +74,8 @@ function heartBurst() {
     const x = (Math.random() - 0.5) * 300;
     const y = (Math.random() - 0.5) * 300;
 
-    heart.style.setProperty("--x", x + "px");
-    heart.style.setProperty("--y", y + "px");
+    heart.style.setProperty("--x", `${x}px`);
+    heart.style.setProperty("--y", `${y}px`);
 
     heartsContainer.appendChild(heart);
 
@@ -63,7 +83,7 @@ function heartBurst() {
   }
 }
 
-// CONFETTI
+// CONFETTI 🎉
 function launchConfetti() {
   for (let i = 0; i < 50; i++) {
     const conf = document.createElement("div");
