@@ -1,16 +1,22 @@
+:root {
+  --pink: #ff66a3;
+  --light-pink: #ffe6f0;
+  --cream: #fff5f7;
+}
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', cursive;
-  background: linear-gradient(to right, #ffe6f0, #fff5f7);
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, var(--light-pink), var(--cream));
   overflow: hidden;
 }
 
 /* Pages */
 .page {
   display: flex;
-  height: 100vh;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   flex-direction: column;
   text-align: center;
 }
@@ -20,10 +26,6 @@ body {
 }
 
 /* Buttons */
-.buttons {
-  margin-top: 20px;
-}
-
 button {
   padding: 12px 25px;
   font-size: 18px;
@@ -31,56 +33,69 @@ button {
   border-radius: 25px;
   margin: 10px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 #btn-yes {
-  background: #ff66a3;
+  background: var(--pink);
   color: white;
-}
-
-#btn-yes:hover {
-  background: #ff3385;
 }
 
 #btn-no {
   background: #ccc;
 }
 
-/* Page 2 styling */
-#page2 {
-  overflow-y: auto;
-  padding: 40px;
-}
-
-.content {
+/* Page 2 */
+.message-container {
   max-width: 600px;
+  padding: 20px;
 }
 
-/* Fade animation */
+.title {
+  font-family: 'Dancing Script', cursive;
+  color: var(--pink);
+}
+
+/* TEXT ANIMATION */
 .fade-text {
   opacity: 0;
-  transform: translateY(30px);
-  transition: 1s;
+  transform: translateY(-40px);
 }
 
 .fade-text.show {
-  opacity: 1;
-  transform: translateY(0);
+  animation: land 0.6s ease forwards;
 }
 
-/* Floating hearts */
-body::before {
-  content: "💖 💕 💗 💓 💞 💘";
+@keyframes land {
+  0% { opacity: 0; transform: translateY(-40px); }
+  60% { opacity: 1; transform: translateY(10px); }
+  100% { transform: translateY(0); }
+}
+
+/* HEART BURST */
+.heart {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  animation: float 10s linear infinite;
-  opacity: 0.2;
-  font-size: 30px;
+  font-size: 20px;
+  animation: burst 1.5s ease-out forwards;
 }
 
-@keyframes float {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(-100%); }
+@keyframes burst {
+  0% { transform: translate(0,0); opacity: 1; }
+  100% { transform: translate(var(--x), var(--y)); opacity: 0; }
 }
+
+/* CONFETTI */
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: pink;
+  top: -10px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
